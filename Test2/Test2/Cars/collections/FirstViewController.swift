@@ -12,28 +12,17 @@ class FirstViewController: UIViewController {
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
         return cv
     }()
 
-    var expandedCellIdentifier = "carCell"
-
-    var cellWidth:CGFloat{
-        return collectionView.frame.size.width
-    }
-     var expandedHeight : CGFloat = 100
-     var notExpandedHeight : CGFloat = 50
-
-     var dataSource = getCars()
-     var isExpanded = [Bool]()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectiobView()
-        isExpanded = Array(repeating: false, count: dataSource.count)
         self.view.backgroundColor = .white
+        collectionView.backgroundColor = .white
     }
 
     fileprivate func setUpCollectiobView(){
@@ -51,41 +40,44 @@ class FirstViewController: UIViewController {
     }
 }
 
-extension FirstViewController:UICollectionViewDataSource{
+extension FirstViewController: UICollectionViewDelegate{
+
+}
+
+extension FirstViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.count
+        return getCars().count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: expandedCellIdentifier, for: indexPath) as! CarCell
-        cell.indexPath = indexPath
-        cell.carModel = dataSource[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "carCell", for: indexPath) as! CarCell
+        cell.carModel = getCars()[indexPath.item]
+
         return cell
-
-    }
-}
-
-extension FirstViewController:UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        if isExpanded[indexPath.row] == true{
-             return CGSize(width: cellWidth, height: expandedHeight)
-        }else{
-            return CGSize(width: cellWidth, height: notExpandedHeight)
-        }
-
     }
 
-}
-
-extension FirstViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        isExpanded[indexPath.row] = !isExpanded[indexPath.row]
-        UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-              self.collectionView.reloadItems(at: [indexPath])
-            }, completion: { success in
-                print("success")
-        })
+        collectionView.reloadData()
+    }
+}
 
+extension FirstViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 150)
+
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout
+        collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
     }
 }

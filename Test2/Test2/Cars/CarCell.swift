@@ -10,7 +10,7 @@ import UIKit
 
 class CarCell: UICollectionViewCell {
 
-    public var indexPath:IndexPath!
+    var isSelectedForExpand = false
 
     var carModel:CarStruct?{
         didSet{
@@ -31,6 +31,7 @@ class CarCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .red
         setUp()
     }
 
