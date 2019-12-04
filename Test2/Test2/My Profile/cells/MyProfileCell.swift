@@ -24,7 +24,7 @@ class MyProfileCell: UITableViewCell {
         let imageView = RoundedImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .clear
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
 
         return imageView
     }()
