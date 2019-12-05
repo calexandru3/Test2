@@ -24,14 +24,14 @@ class CarCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .clear
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
 
         return imageView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .red
+        self.backgroundColor = .clear
         setUp()
     }
 

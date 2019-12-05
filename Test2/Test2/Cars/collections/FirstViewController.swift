@@ -18,11 +18,23 @@ class FirstViewController: UIViewController {
         return cv
     }()
 
+    var expandedCells:Array<Bool> = {
+        var array = Array<Bool>()
+
+        for item in getCars() {
+            array.append(false)
+        }
+
+        return array
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectiobView()
         self.view.backgroundColor = .white
         collectionView.backgroundColor = .white
+
+
     }
 
     fileprivate func setUpCollectiobView(){
@@ -57,6 +69,7 @@ extension FirstViewController: UICollectionViewDataSource{
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        expandedCells[indexPath.item] = !expandedCells[indexPath.item]
         collectionView.reloadData()
     }
 }
@@ -65,8 +78,11 @@ extension FirstViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 150, height: 150)
-
+        if expandedCells[indexPath.item] {
+            return CGSize(width: 200, height: 200)
+        } else {
+            return CGSize(width: 100, height: 100)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView,
